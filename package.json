@@ -1,0 +1,27 @@
+{
+  "name": "obs_keylogger",
+  "version": "1.0.0",
+  "description": "**WIP**: A keylogger that pushes events to a remote OBS instance.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukepighetti/obs_keylogger.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukepighetti/obs_keylogger/issues"
+  },
+  "homepage": "https://github.com/lukepighetti/obs_keylogger#readme",
+  "dependencies": {
+    "mqtt": "^4.3.7"
+  },
+  "devDependencies": {
+    "events": "^3.3.0",
+    "process": "^0.11.10",
+    "querystring-es3": "^0.2.1",
+    "url": "^0.11.0"
+  }
+}

@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  web:watch: npx -y parcel index.html
+  logger:serve: python3 obs_keylogger.py
+  tmux: > 
+    tmux new-session 'task web:watch' \; 
+    split-window -h 'task logger:serve' \;
+    select-pane -t 0 \;
