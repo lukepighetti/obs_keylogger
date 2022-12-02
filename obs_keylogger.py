@@ -1,10 +1,22 @@
 #!/usr/bin/python
+from dotenv import load_dotenv
+from os import getenv
 from pynput import keyboard
+import paho.mqtt.client as mqtt
+
+load_dotenv()
+MQTT_HOST = getenv('MQTT_HOST')
+
+client = mqtt.Client()
 
 last_char = None
 last_char_count = 0
 current_modifier_keys = set()
 current_modifier_chars = set()
+
+def print_and_broadcast(message):
+    print(message)
+    client.publish('obs_keylogger/macbook', message)
 
 def on_press(key):
     global last_char, last_char_count, current_modifier_keys, current_modifier_chars
@@ -12,16 +24,16 @@ def on_press(key):
         char = key.char;
         if last_char == char:
             last_char_count = last_char_count + 1
-            print(last_char_count)
+            print_and_broadcast(f'+{last_char_count}')
         else:
             last_char = key.char;
             last_char_count = 1
             if char == None:
                 return
             elif len(current_modifier_chars) >0:
-                print(''.join(current_modifier_chars)  + char)
+                print_and_broadcast(''.join(current_modifier_chars)  + char)
             else: 
-                print(char)
+                print_and_broadcast(char)
 
     except AttributeError:
         modifier = False
@@ -66,7 +78,7 @@ def on_press(key):
             current_modifier_keys.add(key)
             current_modifier_chars.add(char)
         else: 
-            print(char)
+            print_and_broadcast(char)
 
         last_char = None
         last_char_count = 1
@@ -93,15 +105,18 @@ def on_release(key):
         current_modifier_keys.remove(key)
         current_modifier_chars.remove(symbol)
 
-
-# Collect events until released
-with keyboard.Listener(
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+    listener = keyboard.Listener(
         on_press=on_press,
-        on_release=on_release) as listener:
-    listener.join()
+        on_release=on_release)
+    listener.start()
 
-# # ...or, in a non-blocking fashion:
-# listener = keyboard.Listener(
-#     on_press=on_press,
-#     on_release=on_release)
-# listener.start()
+client.on_connect = on_connect
+client.on_connect_fail = print
+client.on_disconnect = print
+
+client.connect(MQTT_HOST, 1883, 60)
+client.loop_forever()
+
+
