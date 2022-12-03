@@ -36,41 +36,42 @@ def on_press(key):
     except AttributeError:
         modifier = False
         char = None
-
-        if key == keyboard.Key.backspace:
-            char = '⌫'
-        elif key == keyboard.Key.enter:
-            char = '⏎'
-        elif key == keyboard.Key.delete:
-            char = '⌦'
-        elif key == keyboard.Key.space:
-            char = '⎵'
-        elif key == keyboard.Key.esc:
-            char = '⎋'
-        elif key == keyboard.Key.tab:
-           char = '⇥'
-        elif key == keyboard.Key.up:
-            char = '↑'
-        elif key == keyboard.Key.right:
-            char = '→'
-        elif key == keyboard.Key.down:
-            char = '↓'
-        elif key == keyboard.Key.left:
-            char = '←'
-        elif key == keyboard.Key.shift or key == keyboard.Key.shift_r:
-            modifier = True
-            char = '⇧'
-        elif key == keyboard.Key.cmd or key == keyboard.Key.cmd_r:
-            modifier = True
-            char = '⌘'
-        elif key == keyboard.Key.ctrl or key == keyboard.Key.ctrl_r:
-            modifier = True
-            char = '^'
-        elif key == keyboard.Key.alt or key == keyboard.Key.alt_r:
-            modifier = True
-            char = '⎇'
-        else:
-            char = key
+         
+        match key:
+            case keyboard.Key.backspace:
+                char = '⌫'
+            case keyboard.Key.enter:
+                char = '⏎'
+            case keyboard.Key.delete:
+                char = '⌦'
+            case keyboard.Key.space:
+                char = '⎵'
+            case keyboard.Key.esc:
+                char = '⎋'
+            case keyboard.Key.tab:
+                char = '⇥'
+            case keyboard.Key.up:
+                char = '↑'
+            case keyboard.Key.right:
+                char = '→'
+            case keyboard.Key.down:
+                char = '↓'
+            case keyboard.Key.left:
+                char = '←'
+            case keyboard.Key.shift | keyboard.Key.shift_r:
+                modifier = True
+                char = '⇧'
+            case keyboard.Key.cmd | keyboard.Key.cmd_r:
+                modifier = True
+                char = '⌘'
+            case keyboard.Key.ctrl | keyboard.Key.ctrl_r:
+                modifier = True
+                char = '^'
+            case keyboard.Key.alt | keyboard.Key.alt_r:
+                modifier = True
+                char = '⎇'
+            case _:
+                char = key
         
         if modifier:
             current_modifier_keys.add(key)
