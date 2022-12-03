@@ -4,8 +4,10 @@ const mqtt = require('mqtt')
 const client = mqtt.connect('', { hostname: MQTT_HOST, port: 9001, protocol: 'ws' })
 const debug = false
 
+console.log(`connecting to broker ${MQTT_HOST}`)
+
 client.on('connect', function() {
-  console.log('connected to mqtt broker')
+  console.log(`connected to broker ${MQTT_HOST}`)
   client.subscribe('obs_keylogger/macbook', function(err, granted) {
     if (err != null) {
       console.log(err);
