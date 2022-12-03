@@ -21,27 +21,19 @@ def print_and_broadcast(message):
 
 def on_press(key):
     global last_message, last_message_count, current_modifier_keys, current_modifier_chars
+    pressing_alt = keyboard.Key.alt in current_modifier_keys or keyboard.Key.alt_r in current_modifier_keys
+    pressing_shift = keyboard.Key.shift in current_modifier_keys or keyboard.Key.shift_r in current_modifier_keys
+    only_shift = len(current_modifier_keys) == 1 and pressing_shift 
+
+    char = None
+
     try:
-        pressing_alt = keyboard.Key.alt in current_modifier_keys or keyboard.Key.alt_r in current_modifier_keys
-        pressing_shift = keyboard.Key.shift in current_modifier_keys or keyboard.Key.shift_r in current_modifier_keys
         has_vk = hasattr(key, 'vk')
         char = key.char if pressing_alt == False or has_vk == False else DARWIN_SYMBOLS[key.vk] 
-        only_shift = len(current_modifier_keys) == 1 and pressing_shift 
-        message = ''.join(current_modifier_chars) + char if only_shift == False else char
         if char == None:
             return
-        elif last_message == message:
-            last_message_count = last_message_count + 1
-            print_and_broadcast(f'+{last_message_count}')
-        else:
-            last_message = message;
-            last_message_count = 1
-            print_and_broadcast(message)
 
     except AttributeError:
-        modifier = False
-        char = None
-         
         match key:
             case keyboard.Key.backspace:
                 char = '⌫'
@@ -63,29 +55,42 @@ def on_press(key):
                 char = '↓'
             case keyboard.Key.left:
                 char = '←'
+
+        modifier = False
+        modifier_char = None
+        match key:
             case keyboard.Key.shift | keyboard.Key.shift_r:
                 modifier = True
-                char = '⇧'
+                modifier_char = '⇧'
             case keyboard.Key.cmd | keyboard.Key.cmd_r:
                 modifier = True
-                char = '⌘'
+                modifier_char = '⌘'
             case keyboard.Key.ctrl | keyboard.Key.ctrl_r:
                 modifier = True
-                char = '^'
+                modifier_char = '^'
             case keyboard.Key.alt | keyboard.Key.alt_r:
                 modifier = True
-                char = '⎇'
-            case _:
-                char = key
+                modifier_char = '⎇'
         
-        if modifier:
+        if modifier == True and modifier_char != None and key != None:
             current_modifier_keys.add(key)
-            current_modifier_chars.add(char)
-        else: 
-            print_and_broadcast(char)
+            current_modifier_chars.add(modifier_char)
 
-        last_message = None
+    if char == None:
+        return
+
+    message = ''.join(current_modifier_chars) + char if only_shift == False else char
+
+    if last_message == message:
+        last_message_count = last_message_count + 1
+        print_and_broadcast(f'+{last_message_count}')
+
+    else:
+        last_message = message;
         last_message_count = 1
+        if(message == None):
+            return
+        print_and_broadcast(message)
 
 def on_release(key):
     global  current_modifier_keys, current_modifier_chars
