@@ -9,8 +9,8 @@ MQTT_HOST = getenv('MQTT_HOST')
 
 client = mqtt.Client()
 
-last_char = None
-last_char_count = 0
+last_message = None
+last_message_count = 0
 current_modifier_keys = set()
 current_modifier_chars = set()
 
@@ -19,21 +19,19 @@ def print_and_broadcast(message):
     client.publish('obs_keylogger/macbook', message)
 
 def on_press(key):
-    global last_char, last_char_count, current_modifier_keys, current_modifier_chars
+    global last_message, last_message_count, current_modifier_keys, current_modifier_chars
     try:
-        char = key.char;
-        if last_char == char:
-            last_char_count = last_char_count + 1
-            print_and_broadcast(f'+{last_char_count}')
+        char = key.char
+        message = ''.join(current_modifier_chars) + char
+        if char == None:
+            return
+        elif last_message == message:
+            last_message_count = last_message_count + 1
+            print_and_broadcast(f'+{last_message_count}')
         else:
-            last_char = key.char;
-            last_char_count = 1
-            if char == None:
-                return
-            elif len(current_modifier_chars) >0:
-                print_and_broadcast(''.join(current_modifier_chars)  + char)
-            else: 
-                print_and_broadcast(char)
+            last_message = message;
+            last_message_count = 1
+            print_and_broadcast(message)
 
     except AttributeError:
         modifier = False
@@ -80,8 +78,8 @@ def on_press(key):
         else: 
             print_and_broadcast(char)
 
-        last_char = None
-        last_char_count = 1
+        last_message = None
+        last_message_count = 1
 
 def on_release(key):
     global  current_modifier_keys, current_modifier_chars
