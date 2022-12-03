@@ -2,6 +2,7 @@
 from dotenv import load_dotenv
 from os import getenv
 from pynput import keyboard
+from pynput._util.darwin_vks import SYMBOLS as DARWIN_SYMBOLS
 import paho.mqtt.client as mqtt
 
 load_dotenv()
@@ -21,8 +22,12 @@ def print_and_broadcast(message):
 def on_press(key):
     global last_message, last_message_count, current_modifier_keys, current_modifier_chars
     try:
-        char = key.char
-        message = ''.join(current_modifier_chars) + char
+        pressing_alt = keyboard.Key.alt in current_modifier_keys or keyboard.Key.alt_r in current_modifier_keys
+        pressing_shift = keyboard.Key.shift in current_modifier_keys or keyboard.Key.shift_r in current_modifier_keys
+        has_vk = hasattr(key, 'vk')
+        char = key.char if pressing_alt == False or has_vk == False else DARWIN_SYMBOLS[key.vk] 
+        only_shift = len(current_modifier_keys) == 1 and pressing_shift 
+        message = ''.join(current_modifier_chars) + char if only_shift == False else char
         if char == None:
             return
         elif last_message == message:
