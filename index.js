@@ -24,21 +24,22 @@ client.on('message', function(topic, buffer) {
   if (!isCount) {
     const textNode = document.createTextNode(message)
     const spanNode = document.createElement('span')
+    spanNode.appendChild(textNode)
     let isMulti = message.length > 1
     spanNode.className = isMulti ? 'multi' : 'char'
-    spanNode.appendChild(textNode)
     events.appendChild(spanNode)
   } else {
     let count = message.replace('+', '')
-    const lastNode = events.children[events.children.length - 1]
+    const lastOuterNode = events.children[events.children.length - 1]
+    const lastNode = lastOuterNode.children[lastOuterNode.children.length - 1]
     const textNode = document.createTextNode(count)
-    if (lastNode.className == 'count') {
-      lastNode.replaceChildren(textNode)
-    } else {
+    if (lastNode === undefined) {
       const spanNode = document.createElement('span')
       spanNode.className = 'count'
       spanNode.appendChild(textNode)
-      events.appendChild(spanNode)
+      lastOuterNode.appendChild(spanNode)
+    } else {
+      lastNode.replaceChildren(textNode)
     }
   }
   if (debug) console.log(`[${topic}]: ${message.toString()}`)

@@ -2,18 +2,15 @@
 <body>
 <script src="./index.js" type="module"></script>
 <style>
-  html {
-    background-color: #24283b;
-  }
-
   #events {
     display: flex;
     flex-direction: row;
     justify-content: end;
   }
+
   span {
-    display: block;
-    font-family: monospace;
+    display: flex;
+    font-family: Menlo;
   }
 
   span.char{
@@ -24,8 +21,14 @@
 
   span.multi{
     color: #2ac3de;
+    background-color: #11131d;
     font-size: 40px;
     line-height: 60px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 15px;
   }
 
   span.count{
@@ -33,7 +36,7 @@
     font-size: 24px;
     line-height: 40px;
     vertical-align: top;
-    margin-right: 5px;
+    margin-right: 2px;
   }
 </style>
 <div id="events"></div>
