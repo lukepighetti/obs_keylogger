@@ -31,6 +31,7 @@ client.on('message', function(topic, buffer) {
   } else {
     let count = message.replace('+', '')
     const lastOuterNode = events.children[events.children.length - 1]
+    reflow_animation(lastOuterNode)
     const lastNode = lastOuterNode.children[lastOuterNode.children.length - 1]
     const textNode = document.createTextNode(count)
     if (lastNode === undefined) {
@@ -44,3 +45,10 @@ client.on('message', function(topic, buffer) {
   }
   if (debug) console.log(`[${topic}]: ${message.toString()}`)
 })
+
+function reflow_animation(el){
+  if(el === undefined) return
+  el.style.animation = 'none'
+  el.offsetHeight; /* trigger reflow */
+  el.style.animation = null 
+}
