@@ -2,6 +2,7 @@ version: '3'
 
 tasks:
   get: npm install
+  clean: rm -rf .parcel-cache dist
   web:watch: npx -y parcel index.html
   logger:serve: python3 obs_keylogger.py
   tmux: > 

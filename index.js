@@ -32,7 +32,7 @@ client.on('message', function(topic, buffer) {
     let count = message.replace('+', '')
     const lastOuterNode = events.children[events.children.length - 1]
     reflow_animation(lastOuterNode)
-    const lastNode = lastOuterNode?.children[lastOuterNode.children.length - 1]
+    const lastNode = lastOuterNode?.children[lastOuterNode?.children.length - 1]
     const textNode = document.createTextNode(count)
     if (lastNode === undefined) {
       const spanNode = document.createElement('span')
