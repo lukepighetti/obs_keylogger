@@ -7,6 +7,9 @@
     flex-direction: row;
     justify-content: end;
     mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 1) 100px);
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-right: 10px;
   }
 
   @keyframes fadeOut {
@@ -27,11 +30,21 @@
   }
 
   span.char{
-    color: #a9b1d6;
+    color: #c9d1f6;
     font-size: 40px;
     line-height: 60px;
     animation: fadeOut 10s;
     opacity: 0;
+    background: rgba(17,19,29,0.85);
+    margin-left: -0.1px;
+  }
+
+  span.multi + span.char {
+    margin-left: 4px;
+  }
+
+  span.char + span.multi {
+    margin-left: 8px;
   }
 
   span.multi{
@@ -40,16 +53,16 @@
     font-size: 40px;
     line-height: 60px;
     padding-left: 8px;
-    padding-right: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
+    padding-right: 8px;
+    margin-left: 4px;
+    margin-right: 4px;
     border-radius: 15px;
     animation: fadeOut 10s;
     opacity: 0;
   }
 
   span.count{
-    color: #565f89;
+    color: #989fca;
     font-size: 24px;
     line-height: 40px;
     vertical-align: top;
