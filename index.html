@@ -8,9 +8,23 @@
     justify-content: end;
   }
 
+  @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      90% {
+         opacity: 1;
+      }
+      100% {
+         opacity: 0;
+      }
+  }
+
   span {
     display: flex;
     font-family: Menlo;
+    animation: fadeOut 10s;
+    opacity: 0;
   }
 
   span.char{
