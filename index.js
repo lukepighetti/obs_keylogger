@@ -17,6 +17,21 @@ client.on('connect', function() {
   })
 })
 
+function setOpacityTimeout(spanId) {
+  let el = document.querySelector("#" + spanId)
+  let oldTimeoutId = timers[spanId]
+  if (oldTimeoutId !== undefined) {
+    el.style.opacity = 1
+    clearTimeout(oldTimeoutId)
+  }
+  let newTimeoutId = setTimeout(() => {
+    el.style.opacity = 0
+  }, 10 * 1000)
+  timers[spanId] = newTimeoutId
+}
+
+let timers = {}
+let spanCount = 0;
 client.on('message', function(topic, buffer) {
   const events = document.querySelector("#events")
   let message = buffer.toString();
@@ -27,11 +42,14 @@ client.on('message', function(topic, buffer) {
     spanNode.appendChild(textNode)
     let isMulti = message.length > 1
     spanNode.className = isMulti ? 'multi' : 'char'
+    spanNode.id = `span-${spanCount}`
+    spanCount++
     events.appendChild(spanNode)
+    setOpacityTimeout(spanNode.id)
   } else {
     let count = message.replace('+', '')
     const lastOuterNode = events.children[events.children.length - 1]
-    reflow_animation(lastOuterNode)
+    setOpacityTimeout(lastOuterNode.id)
     const lastNode = lastOuterNode?.children[lastOuterNode?.children.length - 1]
     const textNode = document.createTextNode(count)
     if (lastNode === undefined) {
@@ -46,9 +64,9 @@ client.on('message', function(topic, buffer) {
   if (debug) console.log(`[${topic}]: ${message.toString()}`)
 })
 
-function reflow_animation(el){
-  if(el === undefined) return
+function reflow_animation(el) {
+  if (el === undefined) return
   el.style.animation = 'none'
   el.offsetHeight; /* trigger reflow */
-  el.style.animation = null 
+  el.style.animation = null
 }
