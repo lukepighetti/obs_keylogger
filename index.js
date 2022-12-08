@@ -38,7 +38,7 @@ client.on('message', function(topic, buffer) {
       const spanNode = document.createElement('span')
       spanNode.className = 'count'
       spanNode.appendChild(textNode)
-      lastOuterNode.appendChild(spanNode)
+      lastOuterNode?.appendChild(spanNode)
     } else {
       lastNode.replaceChildren(textNode)
     }
