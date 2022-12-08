@@ -4,6 +4,9 @@ tasks:
   get: npm install
   clean: rm -rf .parcel-cache dist
   web:watch: npx -y parcel index.html
+  web:serve: 
+   - task: clean
+   - npx -y parcel serve index.html
   logger:serve: python3 obs_keylogger.py
   tmux: > 
     tmux new-session 'task web:watch' \; 
