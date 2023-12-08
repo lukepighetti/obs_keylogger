@@ -17,5 +17,11 @@
   "homepage": "https://github.com/lukepighetti/obs_keylogger#readme",
   "dependencies": {
     "mqtt": "^4.3.7"
+  },
+  "devDependencies": {
+    "events": "^3.3.0",
+    "process": "^0.11.10",
+    "punycode": "^1.4.1",
+    "url": "^0.11.3"
   }
 }

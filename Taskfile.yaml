@@ -9,6 +9,7 @@ tasks:
    - npx -y parcel serve index.html
   logger:serve: python3 obs_keylogger.py
   tmux: > 
-    tmux new-session 'task web:watch' \; 
-    split-window -h 'task logger:serve' \;
+    tmux new-session 'mosquitto' \; 
+    split-window -h 'MQTT_HOST=127.0.0.1 && task web:watch' \;
+    split-window -h 'MQTT_HOST=127.0.0.1 && task logger:serve' \;
     select-pane -t 0 \;
