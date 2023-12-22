@@ -12,18 +12,6 @@
     margin-right: 10px;
   }
 
-  @keyframes fadeOut {
-      0% {
-        opacity: 1;
-      }
-      90% {
-         opacity: 1;
-      }
-      100% {
-         opacity: 0;
-      }
-  }
-
   span {
     display: flex;
     font-family: Menlo;
@@ -33,10 +21,9 @@
     color: #c9d1f6;
     font-size: 40px;
     line-height: 60px;
-    animation: fadeOut 10s;
-    opacity: 0;
     background: rgba(17,19,29,0.85);
-    margin-left: -0.1px;
+    /* TODO: instant opacity 0-1, slow opacity 1-0*/
+    transition: opacity 2s ease-out;
   }
 
   span.multi + span.char {
@@ -50,6 +37,8 @@
   span.multi{
     color: #2ac3de;
     background-color: #11131d;
+    /* TODO: instant opacity 0-1, slow opacity 1-0*/
+    transition: opacity 2s ease-out;
     font-size: 40px;
     line-height: 60px;
     padding-left: 8px;
@@ -57,8 +46,6 @@
     margin-left: 4px;
     margin-right: 4px;
     border-radius: 15px;
-    animation: fadeOut 10s;
-    opacity: 0;
   }
 
   span.count{
